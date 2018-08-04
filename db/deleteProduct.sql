@@ -1,0 +1,1 @@
+delete from shelfie_app_inventory where id = $1

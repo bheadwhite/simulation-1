@@ -1,0 +1,22 @@
+.Header {
+    height: 100px;
+    background: #ab2a19;
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+.Header>img {
+    width: 50px;
+    position: absolute;
+    top: 25px;
+    left: 75px;
+}
+.Header>h1 {
+    position: absolute;
+    top: 15px;
+    left: 150px;
+    font-weight: 700;
+    font-size: 30px;
+    color: #fff;
+    text-transform: uppercase;
+}
