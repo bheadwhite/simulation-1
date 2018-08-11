@@ -18,6 +18,7 @@ class App extends Component {
   }
   update() {
     axios.get("http://localhost:3001/api/inventory").then(res => {
+      console.log(res.data)
       this.setState({ inventory: res.data });
     });
   }

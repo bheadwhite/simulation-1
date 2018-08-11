@@ -18,9 +18,7 @@ app.get('/api/inventory', controller.getProducts)
 
 app.post('/api/product', controller.addProducts)
 
-app.delete('/api/:id', (req,res,next)=> {
-    res.status(200).send(console.log(req))
-})
+app.delete('/api/:id', controller.deleteProduct)
 
 const port = 3001
 app.listen(port, ()=> console.log(`server is running on ${port}`))

@@ -1,1 +1,0 @@
-select * from shelfie_app_inventory ;
