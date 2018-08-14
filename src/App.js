@@ -12,7 +12,8 @@ class App extends Component {
     this.state = {
       inventory: [],
       edit: false,
-      editForm: {},
+      editForm: {
+      },
       blankForm: {
         imgAddress: "",
         image:
@@ -63,13 +64,13 @@ class App extends Component {
           <Route
             exact path="/form"
             render={props => (
-              <Form refresh={() => this.update()} itemToEdit={form} blankForm={this.updateBlankForm} />
+              <Form refresh={() => this.update()} itemToEdit={form} blankForm={this.updateBlankForm} edit={this.state.edit} />
             )}
           />
           <Route
             exact path="/form/edit"
             render={props => (
-              <Form refresh={() => this.update()} itemToEdit={form} blankForm={this.updateBlankForm} />
+              <Form refresh={() => this.update()} itemToEdit={form} blankForm={this.updateBlankForm} edit={this.state.edit}/>
             )}
           />
         </div>

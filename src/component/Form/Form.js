@@ -7,7 +7,9 @@ export default class Form extends Component {
   constructor() {
     super();
     this.state = {
-      item: {}
+      item: {
+        edit: false
+      },
     };
   }
 
@@ -36,7 +38,8 @@ export default class Form extends Component {
         name: "",
         price: 0,
         image:
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQOyYpYBhnNhfU5ONu6wXoQO3m6gDsbtVRICthpUJ5sp5XOnzt"
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQOyYpYBhnNhfU5ONu6wXoQO3m6gDsbtVRICthpUJ5sp5XOnzt",
+          edit: false
       }
     });
   }
@@ -45,14 +48,14 @@ export default class Form extends Component {
     this.setState({ edit: false });
   }
   static getDerivedStateFromProps(nextProps, prevState) {
-    console.log(nextProps);
     if (nextProps.itemToEdit !== prevState) {
       return {
         item: {
           imgAddress: nextProps.itemToEdit.imgaddress,
           image: nextProps.itemToEdit.image,
           name: nextProps.itemToEdit.name,
-          price: nextProps.itemToEdit.price
+          price: nextProps.itemToEdit.price,
+          edit: nextProps.edit
         }
       };
     }
@@ -112,14 +115,13 @@ export default class Form extends Component {
           <Link to="/">
             <button onClick={() => this.props.blankForm()}>Cancel</button>
           </Link>
-          {this.state.edit ? (
+          {this.state.item.edit ? (
             <Link to="/">
               <button
                 onClick={() => {
                   this.update();
                 }}
               >
-                {" "}
                 Save Changes
               </button>
             </Link>

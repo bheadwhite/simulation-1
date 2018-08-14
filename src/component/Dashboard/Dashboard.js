@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import Product from "./../Product/Product";
 import "./dashboard.css";
 import axios from "axios";
 import {Link} from 'react-router-dom'
