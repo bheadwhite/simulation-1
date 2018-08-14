@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Product from "./../Product/Product";
 import "./dashboard.css";
 import axios from "axios";
+import {Link} from 'react-router-dom'
 
 export default class Dashboard extends Component {
   deleter(d) {
@@ -30,13 +31,12 @@ export default class Dashboard extends Component {
                   >
                     Delete
                   </button>
-                  <button>Edit</button>
+                  <Link to="/form/edit"><button onClick={()=>this.props.edit(product)}>Edit</button></Link>
                 </div>
               </div>
             </div>
           );
         })}
-        <Product />
       </div>
     );
   }

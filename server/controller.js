@@ -14,7 +14,12 @@ module.exports = {
   addProducts: (req, res, next) => {
     const dbInstance = req.app.get("db");
     dbInstance
-      .addProduct(req.body.img, req.body.productName, req.body.price)
+      .addProduct(
+        req.body.image,
+        req.body.name,
+        req.body.price,
+        req.body.imgAddress
+      )
       .then(resp => {
         res.status(200).send("success!");
       })
@@ -27,6 +32,14 @@ module.exports = {
       .then(resp => {
         res.status(200).send("All Good!");
       })
+      .catch(e => console.log(e));
+  },
+  updateProduct: (req, res, next) => {
+    const dbInstance = req.app.get("db");
+    console.log(req.body)
+    dbInstance
+      .update(req.body.id, req.body.name, req.body.price, req.body.image)
+      .then(resp => res.status(200).send("ok"))
       .catch(e => console.log(e));
   }
 };

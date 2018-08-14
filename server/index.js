@@ -19,6 +19,7 @@ app.get('/api/inventory', controller.getProducts)
 app.post('/api/product', controller.addProducts)
 
 app.delete('/api/:id', controller.deleteProduct)
+app.put('/api/product', controller.updateProduct)
 
 const port = 3001
 app.listen(port, ()=> console.log(`server is running on ${port}`))

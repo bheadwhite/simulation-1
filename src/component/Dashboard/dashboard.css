@@ -32,7 +32,7 @@
     background: #d34735;
     padding: 15px;
     border-radius: 7px;
-    margin: 10px 0;
+    margin: 10px auto;
     display: flex;
 }
 .product_pic {
