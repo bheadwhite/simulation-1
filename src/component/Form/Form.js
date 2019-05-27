@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "./form.css";
+import axios from 'axios'
 import { Link, withRouter } from "react-router-dom";
 
 
@@ -13,15 +14,14 @@ class Form extends Component {
     edit: false
   };
 
-  componentDidUpdate(){
-    if(this.props.edit !== false){
-      this.resetItem()
-    }
-  }
-
   componentDidMount(){
     if(this.props.edit === true){
       this.updateEdit()
+    }
+  }
+  componentDidUpdate(){
+    if(!this.props.location.search && this.state.edit === true){
+      this.resetItem()
     }
   }
 
@@ -41,16 +41,19 @@ class Form extends Component {
       item: {
         image: "",
         name: "",
-        price: 0,
-        edit: false
-      }
+        price: 0
+      },
+      edit: false
     });
   }
 
-  // updateItem = () => {
-  //   axios.put("/api/product", {...this.state.item});
-  //   // this.setState({ edit: false });
-  // }
+  updateItem = () => {
+    axios.put("/api/product", {...this.state.item})
+    .then(res=> {
+      this.props.history.push('/')
+      this.props.updateInventory(res.data)
+    })
+  }
 
   itemInputHandler = (e) => {
     this.setState({
@@ -62,7 +65,6 @@ class Form extends Component {
   }
 
   render() {
-    console.log(this.props)
     return (
       <div className="Form">
         <div className="form_img_preview">

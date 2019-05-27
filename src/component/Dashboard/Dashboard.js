@@ -13,7 +13,7 @@ export default class Dashboard extends Component {
 
   render() {
     // console.log('[dashboard]', this.props)
-    let inventory = this.props.inventory ? this.props.inventory.map( product => 
+    let inventory = this.props.inventory ? this.props.inventory.sort((a,b) => a.id-b.id).map( product => 
       <Product 
         key={product.id}
         product={product}

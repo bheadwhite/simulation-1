@@ -26,7 +26,11 @@ module.exports = {
     const dbInstance = req.app.get("db");
     const { id, name, price, image } = req.body
     dbInstance.update(id, name, price, image)
-      .then(resp => res.status(200).send("ok"))
+      .then(()=> {
+        dbInstance.getProducts()
+        .then(resp => res.status(200).send(resp))
+        .catch(e => console.log(e))
+      })
       .catch(e => console.log(e));
   }
 };

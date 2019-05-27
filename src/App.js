@@ -22,6 +22,7 @@ class App extends Component {
   componentDidMount() {
     this.update();
   }
+
   update() {
     axios.get("http://localhost:3001/api/inventory").then(res => {
       this.setState({ inventory: res.data, edit: false });
@@ -44,12 +45,17 @@ class App extends Component {
       editItem: itemToEdit[0],
       edit: true
     })
-
-    this.props.history.push(`/form`)
+    this.props.history.push(`/form?edit=${id}`)
   }
+
+  updateInventory = (inventory) => {
+    this.setState({
+      inventory: inventory
+    })
+  }
+
   
   render() {
-    console.log('[app.js]', this.state.inventory)
     return (
       <div className="App">
         <Header blankForm={this.updateBlankForm} />
@@ -70,6 +76,7 @@ class App extends Component {
                 cancel={this.cancel}
                 addItem={this.addItem}
                 editItem={this.state.editItem}
+                updateInventory={this.updateInventory}
                 />)} />
         </div>
       </div>
