@@ -10,40 +10,46 @@ class App extends Component {
   state = {
     inventory: [],
     edit: false,
+    editItem: {}
   };
 
-  editItem = (id) => {
-    this.setState({
-      edit: true
-    })
-    this.props.history.push('/form')
+  
+  componentDidUpdate(){
+    if(this.state.edit === true){
+      this.setState({edit: false})
+    }
   }
-
   componentDidMount() {
     this.update();
   }
-
-  componentDidUpdate(){
-    console.log('[APP.js] - didUpdate', this.props, this.state)
-    // this.update()
+  update() {
+    axios.get("http://localhost:3001/api/inventory").then(res => {
+      this.setState({ inventory: res.data, edit: false });
+    });
   }
+  
   addItem = (item) => {
     axios.post("http://localhost:3001/api/product", item)
     .then(res => {
-      console.log('promise', res)
+      this.setState({
+        inventory: res.data
+      })
     })
     .catch(err => console.log(err));
   }
 
-  update() {
-    axios.get("http://localhost:3001/api/inventory").then(res => {
-      this.setState({ inventory: res.data });
-    });
-    this.setState({ edit: false });
-  }
+  editItem = (id) => {
+    let itemToEdit = this.state.inventory.filter(el => el.id === id)
+    this.setState({
+      editItem: itemToEdit[0],
+      edit: true
+    })
 
+    this.props.history.push(`/form`)
+  }
+  
   render() {
-    // console.log('[app.js]', this.state)
+    console.log('[app.js]', this.state.inventory)
     return (
       <div className="App">
         <Header blankForm={this.updateBlankForm} />
@@ -63,15 +69,8 @@ class App extends Component {
                 edit={this.state.edit}
                 cancel={this.cancel}
                 addItem={this.addItem}
+                editItem={this.state.editItem}
                 />)} />
-          {/* <Route
-            exact path="/form/edit"
-            render={props => (
-              <Form 
-                refresh={() => this.update()} 
-                // itemToEdit={form} 
-                // blankForm={this.updateBlankForm} 
-                edit={this.state.edit}/> )} /> */}
         </div>
       </div>
     );

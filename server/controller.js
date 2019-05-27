@@ -8,15 +8,13 @@ module.exports = {
   addProducts: (req, res, next) => {
     const dbInstance = req.app.get("db");
     const {name, image, price } = req.body
-    dbInstance.shelfie.insert({name:name, image:image, price:price}, (err, res) => {
-      if (err) {
-        return err
-      } else {
-        res.send(res)
-      }
-    })
+    dbInstance.shelfie.insert({name:name, image:image, price:price})
+    .then(()=> {
+      dbInstance.getProducts()
       .then(resp => { res.status(200).send(resp); })
       .catch(e => console.log(e));
+    })
+    .catch(e => console.log(e))
   },
   deleteProduct: (req, res, next) => {
     const dbInstance = req.app.get("db");

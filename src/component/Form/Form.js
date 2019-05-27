@@ -13,13 +13,27 @@ class Form extends Component {
     edit: false
   };
 
+  componentDidUpdate(){
+    if(this.props.edit !== false){
+      this.resetItem()
+    }
+  }
+
   componentDidMount(){
-    console.log('[form]', this.props)
+    if(this.props.edit === true){
+      this.updateEdit()
+    }
   }
 
   addItem = () => {
     this.props.history.push('/')
     this.props.addItem(this.state.item)
+  }
+  updateEdit = () => {
+    this.setState({
+      item: this.props.editItem,
+      edit: true
+    })
   }
 
   resetItem = () => {
@@ -48,6 +62,7 @@ class Form extends Component {
   }
 
   render() {
+    console.log(this.props)
     return (
       <div className="Form">
         <div className="form_img_preview">
