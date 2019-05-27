@@ -1,143 +1,90 @@
 import React, { Component } from "react";
 import "./form.css";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 
-export default class Form extends Component {
-  constructor() {
-    super();
-    this.state = {
-      item: {
-        edit: false
-      },
-    };
+
+class Form extends Component {
+  state = {
+    item: {
+      image: "",
+      name: "",
+      price: 0
+    },
+    edit: false
+  };
+
+  componentDidMount(){
+    console.log('[form]', this.props)
   }
 
-  add() {
-    let that = this;
-    let obj = {
-      image: this.state.item.image,
-      name: this.state.item.name,
-      price: this.state.item.price,
-      imgAddress: this.state.item.imgAddress
-    };
-    axios
-      .post("http://localhost:3001/api/product", obj)
+  addItem = () => {
+    axios.post("http://localhost:3001/api/product", this.state.item)
       .then(res => {
-        that.props.refresh();
-        that.reset();
+        this.props.history.push('/')
       })
       .catch(err => console.log(err));
   }
 
-  reset() {
+  resetItem = () => {
     this.setState({
       item: {
-        imgAddress: "",
-        img: "",
+        image: "",
         name: "",
         price: 0,
-        image:
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQOyYpYBhnNhfU5ONu6wXoQO3m6gDsbtVRICthpUJ5sp5XOnzt",
-          edit: false
+        edit: false
       }
     });
   }
-  update() {
-    axios.put("/api/product", this.state.item);
-    this.setState({ edit: false });
+
+  // updateItem = () => {
+  //   axios.put("/api/product", {...this.state.item});
+  //   // this.setState({ edit: false });
+  // }
+
+  itemInputHandler = (e) => {
+    this.setState({
+      item: {
+        ...this.state.item,
+        [e.target.name]: e.target.value
+      }
+    })
   }
-  static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.itemToEdit !== prevState) {
-      return {
-        item: {
-          imgAddress: nextProps.itemToEdit.imgaddress,
-          image: nextProps.itemToEdit.image,
-          name: nextProps.itemToEdit.name,
-          price: nextProps.itemToEdit.price,
-          edit: nextProps.edit
-        }
-      };
-    }
-  }
+
   render() {
     return (
       <div className="Form">
         <div className="form_img_preview">
-          <img src={this.state.item.image} alt="pic" />
+          <img src={this.state.item.image || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQOyYpYBhnNhfU5ONu6wXoQO3m6gDsbtVRICthpUJ5sp5XOnzt'} alt="preview" />
         </div>
         <p>Image URL:</p>
         <input
           type="text"
-          onChange={e => {
-            this.setState({
-              item: {
-                imgAddress: e.target.value,
-                image: e.target.value,
-                name: this.state.item.name,
-                price: this.state.item.price
-              }
-            });
-          }}
-          value={this.state.item.imgAddress}
+          name="image"
+          onChange={this.itemInputHandler}
+          value={this.state.item.image}
         />
         <p>Product Name:</p>
         <input
           type="text"
-          onChange={e => {
-            this.setState({
-              item: {
-                imgAddress: this.state.item.imgAddress,
-                image: this.state.item.image,
-                name: e.target.value,
-                price: this.state.item.price
-              }
-            });
-          }}
-          value={this.state.item.name}
-        />
+          name="name"
+          onChange={this.itemInputHandler}
+          value={this.state.item.name}/>
         <p>Price:</p>
         <input
           type="text"
-          onChange={e => {
-            this.setState({
-              item: {
-                imgAddress: this.state.item.imgAddress,
-                image: this.state.item.image,
-                name: this.state.item.name,
-                price: e.target.value
-              }
-            });
-          }}
-          value={this.state.item.price}
-        />
+          name="price"
+          onChange={this.itemInputHandler}
+          value={this.state.item.price}/>
         <div className="form_button_box">
-          <Link to="/">
-            <button onClick={() => this.props.blankForm()}>Cancel</button>
-          </Link>
-          {this.state.item.edit ? (
-            <Link to="/">
-              <button
-                onClick={() => {
-                  this.update();
-                }}
-              >
-                Save Changes
-              </button>
-            </Link>
-          ) : (
-            <Link to="/">
-              <button
-                onClick={() => {
-                  this.add();
-                }}
-              >
-                Add to Inventory
-              </button>
-            </Link>
-          )}
+          <Link to="/" onClick={this.props.cancel}><button>Cancel</button></Link>
+          {this.state.edit ? ( 
+            <button onClick={() => {this.updateItem();}}>Save Changes</button>) : ( 
+            <button onClick={() => {this.addItem();}}>Add to Inventory</button> )}
         </div>
       </div>
     );
   }
 }
+
+export default withRouter(Form)

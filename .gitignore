@@ -25,3 +25,6 @@ config.js
 
 #stupid temp file
 *.TMP
+
+#vscode
+.vscode
