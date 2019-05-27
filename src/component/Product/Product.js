@@ -1,7 +1,7 @@
 import React from 'react'
 
 export const Product = (props) => {
-    console.log('[product]', props)
+    // console.log('[product]', props)
     const { id, image, name, price } = props.product
     return (
         <div className="Product">

@@ -8,8 +8,14 @@ module.exports = {
   addProducts: (req, res, next) => {
     const dbInstance = req.app.get("db");
     const {name, image, price } = req.body
-    dbInstance.addProduct(name, image, price)
-      .then(resp => { res.status(200).send("success!"); })
+    dbInstance.shelfie.insert({name:name, image:image, price:price}, (err, res) => {
+      if (err) {
+        return err
+      } else {
+        res.send(res)
+      }
+    })
+      .then(resp => { res.status(200).send(resp); })
       .catch(e => console.log(e));
   },
   deleteProduct: (req, res, next) => {

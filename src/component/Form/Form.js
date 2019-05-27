@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import "./form.css";
-import axios from "axios";
 import { Link, withRouter } from "react-router-dom";
 
 
@@ -19,11 +18,8 @@ class Form extends Component {
   }
 
   addItem = () => {
-    axios.post("http://localhost:3001/api/product", this.state.item)
-      .then(res => {
-        this.props.history.push('/')
-      })
-      .catch(err => console.log(err));
+    this.props.history.push('/')
+    this.props.addItem(this.state.item)
   }
 
   resetItem = () => {
@@ -79,8 +75,8 @@ class Form extends Component {
         <div className="form_button_box">
           <Link to="/" onClick={this.props.cancel}><button>Cancel</button></Link>
           {this.state.edit ? ( 
-            <button onClick={() => {this.updateItem();}}>Save Changes</button>) : ( 
-            <button onClick={() => {this.addItem();}}>Add to Inventory</button> )}
+            <button onClick={this.updateItem}>Save Changes</button>) : ( 
+            <button onClick={this.addItem}>Add to Inventory</button> )}
         </div>
       </div>
     );

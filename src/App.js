@@ -24,8 +24,15 @@ class App extends Component {
   }
 
   componentDidUpdate(){
-    console.log(this.props)
+    console.log('[APP.js] - didUpdate', this.props, this.state)
     // this.update()
+  }
+  addItem = (item) => {
+    axios.post("http://localhost:3001/api/product", item)
+    .then(res => {
+      console.log('promise', res)
+    })
+    .catch(err => console.log(err));
   }
 
   update() {
@@ -36,8 +43,7 @@ class App extends Component {
   }
 
   render() {
-    console.log('[app.js]', this.state)
-    // let form = this.state.edit ? this.state.editForm : this.state.blankForm;
+    // console.log('[app.js]', this.state)
     return (
       <div className="App">
         <Header blankForm={this.updateBlankForm} />
@@ -56,6 +62,7 @@ class App extends Component {
               <Form 
                 edit={this.state.edit}
                 cancel={this.cancel}
+                addItem={this.addItem}
                 />)} />
           {/* <Route
             exact path="/form/edit"
