@@ -6,8 +6,7 @@ require('dotenv').config();
 const massive = require('massive');
 const cors = require('cors')
 
-app.use(cors())
-app.use(bodyParser.json());
+app.use(cors(), bodyParser.json())
 
 const port = 3001
 massive(process.env.CONNECTION_STRING).then(db => {
